@@ -1,0 +1,5 @@
+# 7l7w
+
+I recently picked up [Seven Languages in Seven Weeks](https://www.amazon.com/Seven-Languages-Weeks-Programming-Programmers/dp/193435659X). I read all the time on Hacker News how various languages are well-suited to accomplishing various tasks, and enable programming in various paradigms. And sometimes I even spend time learning those languages (Hello, Rust! Dzień dobry, Elm! Bom dia, Clojure!). But even having a good grasp of the syntax and an ability to write simple programs doesn't do a lot to give me an intuition for *which* problems I might wish to tackle with *which* technologies. And it takes a long time! The dream is to have a guide to the things that are cool and unique about a given language, while glossing over the boring normal stuff that could be accomplished in any language. And that's what the book attempts to give me, with exercises that reward deep reasoning about what makes the language tick.
+
+Does this need to be on GitHub? No! But I need those little green boxes.
