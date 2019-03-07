@@ -60,4 +60,4 @@ end
 m = RubyCsv.new
 puts m.headers.inspect
 puts m.csv_contents.inspect
-puts m.each { |r| puts r.last, r.first }
+m.each { |r| puts r.last, r.first }
