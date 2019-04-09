@@ -165,3 +165,6 @@ totient_test(N) :-
     write('result = '),
     write(Phi2),
     nl.
+
+add(X, Y, Sum) :-
+    Sum is X+Y.

@@ -1,24 +1,54 @@
 solve(Board, Solution) :-
-    match(Board, Solution),
-    match_1_to_9(Solution),
-    match_1_to_9(Sol_Columns),
-    columns(Solution, Sol_Columns),
-    match_1_to_9(Sol_Boxes),
-    boxes(Solution, Sol_Boxes).
+    length(Solution, 9),
+    build_rows(Board, [], Solution).
+    % match_rows(Board, Solution),
+    % columns(Solution, Sol_Columns),
+    % match_1_to_9(Sol_Columns),
+    % boxes(Solution, Sol_Boxes),
+    % match_1_to_9(Sol_Boxes).
+build_rows([], _, []).
+build_rows([BoardH|BoardT], SolutionRowsSoFar, [SolutionH|SolutionT]) :-
+    consistent(BoardH, [], SolutionH),
+    append(SolutionRowsSoFar, BoardT, BoardSoFar),
+    columns(BoardSoFar, Cols),
+    maplist(not_in, SolutionH, Cols),
+    append(SolutionRowsSoFar, [SolutionH], NewSolutionRows),
+    %print(NewSolutionRows),
+    build_rows(BoardT, NewSolutionRows, SolutionT).
+
+consistent([], _, []).
+consistent([BoardRH|BoardRT], RowSoFar, [BoardRH|SolutionRT]) :-
+    BoardRH=\=0,
+    append(RowSoFar, [BoardRH], NewRow),
+    consistent(BoardRT, NewRow, SolutionRT).
+    % maplist(equal_or_zero, BoardR, SolutionR),
+    % permutation([1, 2, 3, 4, 5, 6, 7, 8, 9], SolutionR).
+consistent([0|BoardRT], RowSoFar, [SolutionRH|SolutionRT]) :-
+    append(BoardRT, RowSoFar, Taken),
+    member(SolutionRH, [1, 2, 3, 4, 5, 6, 7, 8, 9]),
+    not_in(SolutionRH, Taken),
+    append(RowSoFar, [SolutionRH], NewRow),
+    consistent(BoardRT, NewRow, SolutionRT).
+
+    
+
+equal_or_zero(N, N).
+equal_or_zero(0, _).
+
+not_in(E, L) :-
+    \+ member(E, L).
+    
+
+
+
 
 match_1_to_9(Solution) :-
-    maplist(sort, Solution, Sorted),
-    maplist(==([1, 2, 3, 4, 5, 6, 7, 8, 9]), Sorted).
+    maplist(permutation([1, 2, 3, 4, 5, 6, 7, 8, 9]), Solution).
 
-match([], _).
-match([BoardH|BoardT], [SolH|SolT]) :-
-    match_row(BoardH, SolH),
-    match(BoardT, SolT).
+match_rows(Board, Solution) :-
+    maplist(consistent, Board, Solution).
 
-match_row([], _).
-match_row([BdRowH|BdRowT], [SolRowH|SolRowT]) :-
-    SolRowH=BdRowH,
-    match_row(BdRowT, SolRowT).
+
 
 columns([], []).
 columns(Board, Cols) :-

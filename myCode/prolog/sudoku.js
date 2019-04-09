@@ -94,3 +94,9 @@ const evilSudoku = new Sudoku([
 sudoku.solve();
 hardSudoku.solve();
 evilSudoku.solve();
+
+t(
+  5,
+  t(1, nil, t(3, nil, t(4, nil, nil))),
+  t(7, nil, t(9, nil, t(87, t(24, nil, t(52, nil, nil)), t(723, nil, nil))))
+);
