@@ -1,11 +1,13 @@
 solve(Board, Solution) :-
     length(Solution, 9),
-    build_rows(Board, [], Solution).
-    % match_rows(Board, Solution),
-    % columns(Solution, Sol_Columns),
-    % match_1_to_9(Sol_Columns),
-    % boxes(Solution, Sol_Boxes),
-    % match_1_to_9(Sol_Boxes).
+    build_rows(Board, [], Solution),
+    % Pretty slow because it has to create a whole solution
+    % that works for rows and columns, and only then check whether
+    % the boxes work. For easy ones, not a problem. For hard ones,
+    % it runs until I get bored.
+    boxes(Solution, Sol_Boxes),
+    match_1_to_9(Sol_Boxes).
+
 build_rows([], _, []).
 build_rows([BoardH|BoardT], SolutionRowsSoFar, [SolutionH|SolutionT]) :-
     consistent(BoardH, [], SolutionH),
@@ -21,8 +23,6 @@ consistent([BoardRH|BoardRT], RowSoFar, [BoardRH|SolutionRT]) :-
     BoardRH=\=0,
     append(RowSoFar, [BoardRH], NewRow),
     consistent(BoardRT, NewRow, SolutionRT).
-    % maplist(equal_or_zero, BoardR, SolutionR),
-    % permutation([1, 2, 3, 4, 5, 6, 7, 8, 9], SolutionR).
 consistent([0|BoardRT], RowSoFar, [SolutionRH|SolutionRT]) :-
     append(BoardRT, RowSoFar, Taken),
     member(SolutionRH, [1, 2, 3, 4, 5, 6, 7, 8, 9]),
@@ -30,25 +30,15 @@ consistent([0|BoardRT], RowSoFar, [SolutionRH|SolutionRT]) :-
     append(RowSoFar, [SolutionRH], NewRow),
     consistent(BoardRT, NewRow, SolutionRT).
 
-    
-
 equal_or_zero(N, N).
 equal_or_zero(0, _).
 
 not_in(E, L) :-
     \+ member(E, L).
-    
-
-
 
 
 match_1_to_9(Solution) :-
     maplist(permutation([1, 2, 3, 4, 5, 6, 7, 8, 9]), Solution).
-
-match_rows(Board, Solution) :-
-    maplist(consistent, Board, Solution).
-
-
 
 columns([], []).
 columns(Board, Cols) :-
