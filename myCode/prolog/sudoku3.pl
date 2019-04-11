@@ -61,3 +61,31 @@ sudoku(Board, Solution) :-
     all_distinct(Row9),
     all_distinct(Col9),
     all_distinct(Box9).
+
+% I'm trying to make something that will generate a valid board with a single solution
+% This illustrates the weakness of prolog as a general-purpose language
+% Because random is not a pure logic function and can't be backtracked onto,
+% the logic is too complicated for me to figure out.
+% The right thing to do would be use a procedural language.
+build_sudoku(Puzzle) :-
+    length(Board, 81),
+    build_sudoku(Board, Puzzle).
+
+build_sudoku(Board, Puzzle) :-
+    random(0, 80, R),
+    random(1, 9, N),
+    nth0(R, Board, N),
+    sudoku(Board, Solution),
+    notvars(Solution),
+    Puzzle is Board,
+    !.
+
+build_sudoku(Board, Puzzle) :-
+    random(0, 80, R),
+    random(1, 9, N),
+    nth0(R, Board, N),
+    build_sudoku(Board, Puzzle).
+
+notvars([H|T]) :-
+    nonvar(H),
+    notvars(T).
